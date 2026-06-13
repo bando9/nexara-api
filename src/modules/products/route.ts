@@ -21,3 +21,5 @@ productsRoute.openapi(
     return c.json(products, 200);
   },
 );
+
+// TODO: POST, PUT, DELETE
