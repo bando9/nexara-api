@@ -6,6 +6,8 @@
     "db:down": "docker compose down"
   },
   "dependencies": {
+    "@hono/zod-openapi": "^1.4.0",
+    "@scalar/hono-api-reference": "^0.11.3",
     "hono": "^4.12.25"
   },
   "devDependencies": {
