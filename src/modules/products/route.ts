@@ -17,7 +17,12 @@ productsRoute.openapi(
     },
   },
   async (c) => {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        productVariants: true,
+        productSpecifications: true,
+      },
+    });
     return c.json(products, 200);
   },
 );

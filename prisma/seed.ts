@@ -31,37 +31,36 @@ async function main() {
     console.log(`Category: ${upsertCategory.slug}`);
   }
 
-  console.log(`\nSeeding product...`);
   for (const product of rawProducts) {
-    const slug = slugify(product.name);
-    const upsertProduct = await prisma.product.create({
-      data: {
+    const upsertProduct = await prisma.product.upsert({
+      where: { slug: product.slug },
+      update: {},
+      create: {
         name: product.name,
-        slug,
+        slug: product.slug,
+        description: product.description,
+        isActive: product.isActive,
+
         categorySlug: product.categorySlug,
         brandSlug: product.brandSlug,
 
         productVariants: {
-          create: {
-            sku: product.sku,
-            price: product.price,
-            stockQuantity: product.stock,
-            isDefault: true,
-          },
+          create: product.variants,
         },
 
         productSpecifications: {
-          create: product.specs.map((spec) => ({
-            specName: spec.n,
-            specValue: spec.v,
-          })),
+          create: product.specs,
+        },
+
+        productImages: {
+          create: product.images,
         },
       },
     });
-    console.log(`Product: ${upsertProduct.name}`);
+    console.log(`product: ${upsertProduct.name}`);
   }
 
-  console.log(`\nFinish Seeding`);
+  console.log(`Seeding Finished!`);
 }
 
 main()
