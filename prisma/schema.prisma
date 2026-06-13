@@ -23,10 +23,10 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  categoryId            String
-  category              Category               @relation(fields: [categoryId], references: [id])
-  brandId               String
-  brand                 Brand                  @relation(fields: [brandId], references: [id])
+  categorySlug          String
+  category              Category               @relation(fields: [categorySlug], references: [slug])
+  brandSlug             String
+  brand                 Brand                  @relation(fields: [brandSlug], references: [slug])
   productVariants       ProductVariant[]
   productSpecifications ProductSpecification[]
   productImages         ProductImage[]
