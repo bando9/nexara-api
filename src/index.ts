@@ -1,6 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 import { logger } from "hono/logger";
+import { prisma } from "./lib/prisma";
 
 const app = new OpenAPIHono();
 
@@ -20,6 +21,23 @@ app.openapi(
   (c) => {
     const text = "Hello, Nexara here! :)";
     return c.json(text, 200);
+  },
+);
+
+app.openapi(
+  {
+    method: "get",
+    path: "/products",
+    description: "get products",
+    responses: {
+      200: {
+        description: "Successfully get products",
+      },
+    },
+  },
+  async (c) => {
+    const products = await prisma.product.findMany();
+    return c.json(products, 200);
   },
 );
 

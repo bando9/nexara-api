@@ -1,16 +1,32 @@
 {
   "name": "nexara-api",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "db:up": "docker compose up -d",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:gen": "prisma generate",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio --browser none",
+    "db:reset": "prisma migrate reset"
   },
   "dependencies": {
     "@hono/zod-openapi": "^1.4.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@scalar/hono-api-reference": "^0.11.3",
-    "hono": "^4.12.25"
+    "dotenv": "^17.4.2",
+    "hono": "^4.12.25",
+    "pg": "^8.21.0"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^25.9.3",
+    "@types/pg": "^8.20.0",
+    "prisma": "^7.8.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
   }
 }
