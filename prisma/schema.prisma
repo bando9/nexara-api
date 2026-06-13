@@ -17,9 +17,73 @@ model Product {
 
   name        String
   slug        String  @unique
-  description String
-  isActive    Boolean @default(false)
+  description String? @db.Text
+  isActive    Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  categoryId            String
+  category              Category               @relation(fields: [categoryId], references: [id])
+  brandId               String
+  brand                 Brand                  @relation(fields: [brandId], references: [id])
+  productVariants       ProductVariant[]
+  productSpecifications ProductSpecification[]
+  productImages         ProductImage[]
+}
+
+model Category {
+  id String @id @default(ulid())
+
+  name String
+  slug String @unique
+
+  products Product[]
+}
+
+model Brand {
+  id String @id @default(ulid())
+
+  name    String
+  slug    String
+  logoUrl String
+
+  products Product[]
+}
+
+model ProductVariant {
+  id String @id @default(ulid())
+
+  sku           String  @unique
+  price         Int
+  stockQuantity Int     @default(0)
+  color         String?
+  storage       String?
+  isDefault     Boolean @default(false)
+
+  productId     String
+  product       Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productImages ProductImage[]
+}
+
+model ProductSpecification {
+  id String @id @default(ulid())
+
+  specName  String
+  specValue String
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductImage {
+  id String @id @default(ulid())
+
+  imageUrl  String
+  isPrimary Boolean @default(false)
+
+  productId String
+  product   Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
 }
