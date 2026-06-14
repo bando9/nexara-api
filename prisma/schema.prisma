@@ -19,6 +19,7 @@ model Product {
   slug        String  @unique
   description String? @db.Text
   isActive    Boolean @default(true)
+  price       Int     @default(1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

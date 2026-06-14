@@ -32,6 +32,8 @@ async function main() {
 
   console.log(`\nSeeding Product...`);
   for (const product of rawProducts) {
+    const startPrice = Math.min(...product.variants.map((v) => v.price));
+
     const upsertProduct = await prisma.product.upsert({
       where: { slug: product.slug },
       update: {},
@@ -40,9 +42,9 @@ async function main() {
         slug: product.slug,
         description: product.description,
         isActive: product.isActive,
-
         categorySlug: product.categorySlug,
         brandSlug: product.brandSlug,
+        price: startPrice,
 
         productVariants: {
           create: product.variants,
