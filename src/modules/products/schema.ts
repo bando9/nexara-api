@@ -29,7 +29,7 @@ export const ImagesSchema = z.array(ImageSchema);
 
 // Product
 export const ProductSchema = z.object({
-  //   id: z.string(),
+  id: z.string(),
   name: z.string().openapi({ example: "iPhone 17 Pro Max" }),
   slug: z.string().openapi({ example: "iphone-17-pro-max" }),
   description: z.string().openapi({
@@ -39,12 +39,37 @@ export const ProductSchema = z.object({
   categorySlug: z.string().openapi({ example: "smartphone" }),
   brandSlug: z.string().openapi({ example: "apple" }),
   isActive: z.boolean().default(true),
+  price: z.int(),
   variants: VariantsSchema,
   specs: SpecificationsSchema,
   images: ImagesSchema,
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const ProductsSchema = z.array(ProductSchema);
 
+// Seed Product
+export const SeedProductSchema = ProductSchema.omit({
+  id: true,
+  price: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export const SeedProductsSchema = z.array(SeedProductSchema);
+
+// Product Query
+export const ProductQuerySchema = z.object({
+  page: z.coerce.number().min(1).optional().default(1),
+  limit: z.coerce.number().min(1).max(100).optional().default(10),
+  minPrice: z.coerce.number().min(0).optional(),
+  maxPrice: z.coerce.number().min(0).optional(),
+  sort: z.enum(["createdAt", "price", "name"]).optional().default("createdAt"),
+  sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  q: z.string().optional(),
+});
+
 export type ProductType = z.infer<typeof ProductSchema>;
 export type ProductsType = z.infer<typeof ProductsSchema>;
+export type SeedProductType = z.infer<typeof SeedProductSchema>;
+export type SeedProductsType = z.infer<typeof SeedProductsSchema>;
