@@ -2,7 +2,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 export const helloRoute = new OpenAPIHono();
 
-const tags = ["hello"];
+const tags = ["Hello"];
 
 helloRoute.openapi(
   {

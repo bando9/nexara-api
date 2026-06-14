@@ -3,7 +3,7 @@ import { prisma } from "../../lib/prisma";
 import { ProductQuerySchema, ProductsSchema } from "./schema";
 
 export const productsRoute = new OpenAPIHono();
-const tags = ["products"];
+const tags = ["Products"];
 
 productsRoute.openapi(
   {

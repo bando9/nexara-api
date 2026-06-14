@@ -4,6 +4,8 @@ import { logger } from "hono/logger";
 import { productsRoute } from "./modules/products/route";
 import { helloRoute } from "./modules/hello/route";
 import { cors } from "hono/cors";
+import { brandRoute } from "./modules/brands/route";
+import { categoryRoute } from "./modules/categories/route";
 
 const app = new OpenAPIHono();
 
@@ -11,7 +13,9 @@ app.use(logger());
 
 export const appRoute = app
   .route("/hello", helloRoute)
-  .route("/products", productsRoute);
+  .route("/products", productsRoute)
+  .route("/brands", brandRoute)
+  .route("/categories", categoryRoute);
 
 app.use(
   "*",
