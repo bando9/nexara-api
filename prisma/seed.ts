@@ -8,8 +8,7 @@ import slugify from "slugify";
 async function main() {
   console.log("Seeding process...");
 
-  console.log(`\nSeeding brand...`);
-
+  console.log(`\nSeeding Brand...`);
   for (const brand of brands) {
     const upsertBrand = await prisma.brand.upsert({
       where: { slug: brand.slug },
@@ -20,7 +19,7 @@ async function main() {
     console.log(`Brand: ${upsertBrand.slug}`);
   }
 
-  console.log(`\nSeeding category...`);
+  console.log(`\nSeeding Category...`);
   for (const category of categories) {
     const upsertCategory = await prisma.category.upsert({
       where: { slug: category.slug },
@@ -31,6 +30,7 @@ async function main() {
     console.log(`Category: ${upsertCategory.slug}`);
   }
 
+  console.log(`\nSeeding Product...`);
   for (const product of rawProducts) {
     const upsertProduct = await prisma.product.upsert({
       where: { slug: product.slug },
