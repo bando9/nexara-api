@@ -3,10 +3,15 @@ import { z } from "@hono/zod-openapi";
 // Variant
 export const VariantSchema = z.object({
   sku: z.string().openapi({ example: "SMG-S24U-256-GRY" }),
-  price: z.int().openapi({ example: 21999000 }),
-  stockQuantity: z.int().openapi({ example: 25 }).default(0),
-  color: z.string().openapi({ example: "Titanium Gray" }).nullable(),
-  storage: z.string().openapi({ example: "256GB" }).nullable(),
+  price: z.number().int().positive().openapi({ example: 21999000 }),
+  stockQuantity: z
+    .number()
+    .int()
+    .nonnegative()
+    .default(0)
+    .openapi({ example: 25 }),
+  color: z.string().optional().nullable().openapi({ example: "Titanium Gray" }),
+  storage: z.string().optional().nullable().openapi({ example: "256GB" }),
   isDefault: z.boolean().default(false),
 });
 
@@ -23,7 +28,7 @@ export const ImageSchema = z.object({
   imageUrl: z
     .string()
     .openapi({ example: "/images/products/ip17pm-nat-1.webp" }),
-  isPrimary: z.boolean(),
+  isPrimary: z.boolean().default(false),
 });
 export const ImagesSchema = z.array(ImageSchema);
 
@@ -59,15 +64,31 @@ export const SeedProductSchema = ProductSchema.omit({
 export const SeedProductsSchema = z.array(SeedProductSchema);
 
 // Product Query
-export const ProductQuerySchema = z.object({
+export const GetProductQuerySchema = z.object({
   page: z.coerce.number().min(1).optional().default(1),
   limit: z.coerce.number().min(1).max(100).optional().default(10),
   minPrice: z.coerce.number().min(0).optional(),
   maxPrice: z.coerce.number().min(0).optional(),
   sort: z.enum(["createdAt", "price", "name"]).optional().default("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
+  category: z.coerce.string().optional(),
+  brand: z.coerce.string().optional(),
   q: z.string().optional(),
 });
+
+// Create Product Query
+export const AddProductBodySchema = z.object({
+  name: z.string().min(3),
+  description: z.string().optional(),
+  isActive: z.boolean().default(true),
+  categorySlug: z.string(),
+  brandSlug: z.string(),
+  productVariants: VariantsSchema.min(1),
+  productSpecifications: SpecificationsSchema.optional(),
+  productImages: ImagesSchema.min(1),
+});
+
+// Delete Product Query
 
 export type ProductType = z.infer<typeof ProductSchema>;
 export type ProductsType = z.infer<typeof ProductsSchema>;
