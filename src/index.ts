@@ -11,19 +11,20 @@ const app = new OpenAPIHono();
 
 app.use(logger());
 
-export const appRoute = app
-  .route("/hello", helloRoute)
-  .route("/products", productsRoute)
-  .route("/brands", brandRoute)
-  .route("/categories", categoryRoute);
-
 app.use(
   "*",
   cors({
     origin: ["http://localhost:5173"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    exposeHeaders: ["x-total-item", "x-page", "x-limit", "x-total-pages"],
   }),
 );
+
+export const appRoute = app
+  .route("/hello", helloRoute)
+  .route("/products", productsRoute)
+  .route("/brands", brandRoute)
+  .route("/categories", categoryRoute);
 
 // API Docs
 app.doc("/openapi.json", {
