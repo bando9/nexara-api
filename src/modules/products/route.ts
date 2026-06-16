@@ -108,7 +108,7 @@ productsRoute.openapi(
         skip,
         where: whereCondition,
         orderBy: prismaOrderBy,
-        include: { productVariants: true },
+        include: { variants: true, specifications: true },
       });
 
       const totalCount = await prisma.product.count({

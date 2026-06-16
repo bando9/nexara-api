@@ -24,13 +24,13 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  categorySlug          String
-  category              Category               @relation(fields: [categorySlug], references: [slug])
-  brandSlug             String
-  brand                 Brand                  @relation(fields: [brandSlug], references: [slug])
-  productVariants       ProductVariant[]
-  productSpecifications ProductSpecification[]
-  productImages         ProductImage[]
+  categorySlug   String
+  category       Category               @relation(fields: [categorySlug], references: [slug])
+  brandSlug      String
+  brand          Brand                  @relation(fields: [brandSlug], references: [slug])
+  variants       ProductVariant[]
+  specifications ProductSpecification[]
+  productImages  ProductImage[]
 }
 
 model Category {

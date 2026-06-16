@@ -2,6 +2,7 @@ import { z } from "@hono/zod-openapi";
 
 // Variant
 export const VariantSchema = z.object({
+  id: z.string(),
   sku: z.string().openapi({ example: "SMG-S24U-256-GRY" }),
   price: z.number().int().positive().openapi({ example: 21999000 }),
   stockQuantity: z
@@ -19,6 +20,7 @@ export const VariantsSchema = z.array(VariantSchema);
 
 // Specification
 export const SpecificationSchema = z.object({
+  id: z.string(),
   specName: z.string().openapi({ example: "Chipset" }),
   specValue: z.string().openapi({ example: "Apple A19 Pro" }),
 });
@@ -46,7 +48,7 @@ export const ProductSchema = z.object({
   isActive: z.boolean().default(true),
   price: z.int(),
   variants: VariantsSchema,
-  specs: SpecificationsSchema,
+  specifications: SpecificationsSchema,
   images: ImagesSchema,
   createdAt: z.date(),
   updatedAt: z.date(),
